@@ -167,22 +167,8 @@ class QRCodeDartScanViewState extends State<QRCodeDartScanView>
 
   Widget _getCameraWidget(BuildContext context) {
     var camera = controller.cameraController!.value;
-    return ClipRRect(
-      child: SizedBox(
-        key: _cameraKey,
-        width: widget.widthPreview,
-        height: widget.heightPreview,
-        child: Stack(
-          children: [
-           CameraPreview(
-              controller.cameraController!,
-            ),
-            if (controller.state.value.typeScan == TypeScan.takePicture)
-              _buildButton(),
-            widget.child ?? const SizedBox.shrink(),
-          ],
-        ),
-      ),
+    return  CameraPreview(
+      controller.cameraController!,
     );
   }
 
