@@ -167,23 +167,6 @@ class QRCodeDartScanViewState extends State<QRCodeDartScanView>
 
   Widget _getCameraWidget(BuildContext context) {
     var camera = controller.cameraController!.value;
-    // fetch screen size
-    final size = MediaQuery.of(context).size;
-
-    // calculate scale depending on screen and camera ratios
-    // this is actually size.aspectRatio / (1 / camera.aspectRatio)
-    // because camera preview size is received as landscape
-    // but we're calculating for portrait orientation
-    Size sizePreview = size;
-    if (widget.widthPreview != null && widget.heightPreview != null) {
-      sizePreview = Size(widget.widthPreview!, widget.heightPreview!);
-    }
-
-    var scale = sizePreview.aspectRatio * camera.aspectRatio;
-
-    // // to prevent scaling down, invert the value
-    if (scale < 1) scale = 1 / scale;
-
     return ClipRRect(
       child: SizedBox(
         key: _cameraKey,
@@ -191,13 +174,8 @@ class QRCodeDartScanViewState extends State<QRCodeDartScanView>
         height: widget.heightPreview,
         child: Stack(
           children: [
-            Transform.scale(
-              scale: scale,
-              child: Center(
-                child: CameraPreview(
-                  controller.cameraController!,
-                ),
-              ),
+           CameraPreview(
+              controller.cameraController!,
             ),
             if (controller.state.value.typeScan == TypeScan.takePicture)
               _buildButton(),
